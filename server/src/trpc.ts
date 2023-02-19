@@ -1,25 +1,34 @@
-import { inferAsyncReturnType, initTRPC, TRPCError } from '@trpc/server'
+import { initTRPC, TRPCError } from '@trpc/server'
 import { CreateExpressContextOptions } from '@trpc/server/adapters/express'
 import { PrismaClient } from '@prisma/client'
 
 export const prisma = new PrismaClient()
 
 // create tRPC-Context
+interface Context {
+  user?: {
+    id: string;
+    isAdmin: boolean;
+    // [..]
+  };
+}
+
 export function createContext ({ req, res }: CreateExpressContextOptions) {
   return {
-    // add your context here
-    req,
-    res,
-    isAdmin: true
+    // @TODO add your context here
+    user: {
+      id: '123',
+      isAdmin: true
+    }
   }
 }
 
 // Init trpc
-export const t = initTRPC.context<inferAsyncReturnType<typeof createContext>>().create()
+export const t = initTRPC.context<Context>().create()
 
-// Create Middleware
+// Create Middleware @TODO
 const isAdminMiddleware = t.middleware(async ({ ctx, next }) => {
-  if (!ctx.isAdmin) {
+  if (!ctx.user?.isAdmin) {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
       message: 'You are not authorized to do this',

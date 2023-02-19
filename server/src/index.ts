@@ -1,12 +1,17 @@
 import http from 'http'
 import debug from 'debug'
 import app from './app'
-const debugLog = debug('server:dev')
+
+const debugLog = debug('server:server')
+const debugErrors = debug('ERROR:index')
+debugLog.enabled = true
+debugErrors.enabled = true
+
 /**
  * Normalize a port into a number, string, or false.
  */
 
-function normalizePort (val : string) {
+function normalizePort (val: string) {
   const port = parseInt(val, 10)
 
   if (Number.isNaN(port)) {
@@ -41,7 +46,7 @@ const server = http.createServer(app)
 
 function onError (error: any) { // @CHECK this type may not be right
   if (error.syscall !== 'listen') {
-    debugLog(error.code, 'LEARNING ERRORS')
+    debugErrors(error.code, 'LEARNING ERRORS')
     throw error
   }
 
@@ -60,7 +65,7 @@ function onError (error: any) { // @CHECK this type may not be right
       process.exit(1)
       break
     default:
-      console.log(error.code, 'LEARNING ERRORS')
+      debugErrors(error.code, 'LEARNING ERRORS')
       throw error
   }
 }

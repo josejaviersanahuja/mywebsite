@@ -6,6 +6,7 @@ import { userRouter } from './users'
 import { postRouter } from './posts'
 
 const debugLog = debug('client:dev')
+debugLog.enabled = true
 
 export const appRouter = t.router({
   hello: t.procedure
@@ -22,6 +23,8 @@ export const appRouter = t.router({
   users: userRouter, // nested router
   posts: postRouter
 })
+
+export type AppRouter = typeof appRouter
 
 // Merge routers
 // export const mergedRouter = t.mergeRouters(appRouter, userRouter)

@@ -4,9 +4,17 @@ import * as path from 'path'
 import * as fs from 'fs'
 import logger from 'morgan'
 import { createExpressMiddleware } from '@trpc/server/adapters/express'
+import debug from 'debug'
+
 import { appRouter } from './routers'
 import { createContext } from './trpc'
+import apiKey from './expressMiddlewares/apiKey'
+import createHttpError, { HttpError } from 'http-errors'
 import { TRPCError } from '@trpc/server'
+import { getHTTPStatusCodeFromError } from '@trpc/server/http'
+
+const debugLog = debug('server:app')
+debugLog.enabled = true
 
 // Init app
 const app = express()
@@ -27,6 +35,7 @@ app.use(logger('combined', { stream: accessLogStream }))
 // Middlewares
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(apiKey)
 
 // tRPC
 app.use('/trpc', createExpressMiddleware({ router: appRouter, createContext }))
@@ -38,23 +47,25 @@ app.get('/', (req, res) => {
 
 // 404
 app.use((req, res, next) => {
-  next(new TRPCError({
-    code: 'NOT_FOUND',
-    message: 'Not Found',
-    cause: 'The requested resource could not be found but may be available again in the future.'
-  }))
+  next(createHttpError.NotFound())
 })
 
 // error handler
-app.use((err: TRPCError, req: Request, res: Response, next: NextFunction) => {
+app.use((err: HttpError | TRPCError, req: Request, res: Response, next: NextFunction) => {
   // set locals, only providing error in development
   res.locals.message = err.message
   res.locals.error = req.app.get('env') === 'development' ? err : {}
 
   // render the error page
-  res.status(500).json(err)
+  if (err instanceof HttpError) {
+    res.status(err.status).json(err)
+  } else if (err instanceof TRPCError) {
+    const httpCode = getHTTPStatusCodeFromError(err)
+    res.status(httpCode).json(err)
+  } else {
+    debugLog(err)
+    res.status(500).json({ ...err, instanceOf: false })
+  }
 })
-
-export type AppRouter = typeof appRouter
 
 export default app
