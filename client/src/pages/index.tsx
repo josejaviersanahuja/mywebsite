@@ -4,6 +4,8 @@ import styles from '@/styles/Home.module.css'
 import { trpcClient } from 'trpcClient'
 import { useEffect } from 'react'
 
+import Logo from '@/icons/Logo'
+
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
@@ -24,6 +26,7 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <p >Hola parrafo 1</p>
+        <Logo />
       </main>
     </>
   )
