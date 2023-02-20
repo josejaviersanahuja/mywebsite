@@ -1,4 +1,4 @@
-import { t } from '../trpc'
+import { publicProcedure, router } from '../trpc'
 import { z } from 'zod'
 import debug from 'debug'
 
@@ -8,15 +8,15 @@ import { postRouter } from './posts'
 const debugLog = debug('client:dev')
 debugLog.enabled = true
 
-export const appRouter = t.router({
-  hello: t.procedure
+export const appRouter = router({
+  hello: publicProcedure
     .input(z.object({
       name: z.string()
     }))
     .query(req => {
       return `Hello ${req.input.name}`
     }),
-  logToServer: t.procedure.input(z.string())
+  logToServer: publicProcedure.input(z.string())
     .mutation((req) => {
       debugLog(req.input)
     }),
