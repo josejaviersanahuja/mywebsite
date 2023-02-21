@@ -19,6 +19,13 @@ const ffBody = Cabin({
   weight: ['400', '700']
 })
 
+/* WAY TO USE LOCAL FONTS
+import localFont from '@next/font/local'
+const ffLocal = localFont({
+  src: '/fonts/Inter-Regular.woff2',
+})
+ */
+
 export default function Home() {
   
   useEffect(() => {
@@ -27,6 +34,8 @@ export default function Home() {
       .catch((err) => console.log(err))
   }, [])
 
+  console.log(styles);
+  
   return (
     <>
       <Head>
@@ -36,8 +45,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <p >Hola parrafo 1</p>
-        <Logo />
+        <p >Hola parrafo 1 lo suficientemente largo para que pase algo distinto</p>
+        
       </main>
     </>
   )
