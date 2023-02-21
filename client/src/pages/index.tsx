@@ -1,12 +1,23 @@
 import Head from 'next/head'
-import { Inter } from '@next/font/google'
+import { Work_Sans, Nothing_You_Could_Do, Cabin } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
 import { trpcClient } from 'trpcClient'
 import { useEffect } from 'react'
 
 import Logo from '@/icons/Logo'
 
-const inter = Inter({ subsets: ['latin'] })
+const ffHeaders = Work_Sans({ 
+  subsets: ['latin'],
+  weight: ['400', '700', '800']
+})
+const ffSpecial = Nothing_You_Could_Do({ 
+  subsets: ['latin'],
+  weight: '400'
+})
+const ffBody = Cabin({ 
+  subsets: ['latin'],
+  weight: ['400', '700']
+})
 
 export default function Home() {
   

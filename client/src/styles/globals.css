@@ -9,8 +9,16 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
-  --prime-color-400-rgb: 49, 49, 49;
-  --prime-color-300-rgb: 61, 61, 61;
+
+  --prime-color-400-rgb: 70, 70, 70;
+  --prime-color-300-rgb: 88, 88, 88;
+  --prime-color-200-rgb: 105, 105, 105;
+
+  --second-color-400-rgb: 37, 37, 148;
+  --second-color-100-rgb: 74, 74, 250;
+
+  --third-color-400-rgb: 68, 148, 44;
+  --third-color-100-rgb: 68, 148, 44;
 
   --primary-glow: conic-gradient(
     from 180deg at 50% 50%,
