@@ -8,7 +8,7 @@
   background: white;
   width: 100%;
   max-width: var(--max-width);
-  background-image: url("../../public/logo_invertido_512.png");
+  background-image: url("../../public/logo-invertido-512.svg");
   background-repeat: no-repeat;
   background-position: 50%;
 }
